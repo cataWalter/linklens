@@ -1,0 +1,50 @@
+[package]
+name = "linklens"
+version = "1.0.0"
+description = "Link Analyzer and File Dependency Mapper"
+authors = ["LinkLens Team"]
+license = "MIT"
+repository = "https://github.com/cataWalter/linklens"
+edition = "2021"
+rust-version = "1.70"
+
+[dependencies]
+tauri = { version = "1.5", features = ["api-all"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tree-sitter = "0.20"
+tree-sitter-javascript = "0.20"
+tree-sitter-typescript = "0.20"
+tree-sitter-python = "0.20"
+tree-sitter-java = "0.20"
+tree-sitter-c = "0.20"
+tree-sitter-cpp = "0.20"
+tree-sitter-go = "0.20"
+tree-sitter-rust = "0.20"
+tree-sitter-php = "0.20"
+tree-sitter-ruby = "0.20"
+notify = "6.1"
+glob = "0.3"
+regex = "1.10"
+rayon = "1.8"
+petgraph = "0.6"
+thiserror = "1.0"
+anyhow = "1.0"
+log = "0.4"
+env_logger = "0.10"
+once_cell = "1.19"
+parking_lot = "0.12"
+walkdir = "2.4"
+
+[build-dependencies]
+tauri-build = { version = "1.5", features = [] }
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true
