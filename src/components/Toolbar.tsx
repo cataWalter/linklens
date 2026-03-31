@@ -1,12 +1,14 @@
-import React from 'react';
-import { FolderOpen, Moon, Sun, Download, Eye, EyeOff } from 'lucide-react';
+import React, { useState } from 'react';
+import { FolderOpen, Moon, Sun, Download, Eye, EyeOff, HelpCircle } from 'lucide-react';
 import { useGraphStore } from '../store/graphStore';
 import { open } from '@tauri-apps/api/dialog';
 import { useTheme } from '../hooks/useTheme';
+import { AboutModal } from './AboutModal';
 
 export const Toolbar: React.FC = () => {
   const { rootPath, openFolder, startWatching, stopWatching, isWatching, isLoading, exportGraph } = useGraphStore();
   const { theme, toggleTheme } = useTheme();
+  const [showAbout, setShowAbout] = useState(false);
 
   const handleOpenFolder = async () => {
     const selected = await open({
@@ -35,6 +37,7 @@ export const Toolbar: React.FC = () => {
   };
 
   return (
+    <>
     <div className="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
       {/* Left section */}
       <div className="flex items-center gap-2">
@@ -96,6 +99,14 @@ export const Toolbar: React.FC = () => {
         )}
 
         <button
+          onClick={() => setShowAbout(true)}
+          className="p-2 rounded-md hover:bg-gray-700 transition-colors"
+          title="About LinkLens"
+        >
+          <HelpCircle size={18} />
+        </button>
+
+        <button
           onClick={toggleTheme}
           className="p-2 rounded-md hover:bg-gray-700 transition-colors"
           title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
@@ -104,5 +115,7 @@ export const Toolbar: React.FC = () => {
         </button>
       </div>
     </div>
+    <AboutModal isOpen={showAbout} onClose={() => setShowAbout(false)} />
+    </>
   );
 };
