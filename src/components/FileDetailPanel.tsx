@@ -1,11 +1,11 @@
 import React from 'react';
-import { FileCode, GitBranch, ArrowRight, ArrowLeft, AlertTriangle, Star, Network } from 'lucide-react';
+import { FileCode, GitBranch, ArrowLeft, AlertTriangle, Star, Network } from 'lucide-react';
 import { useGraphStore } from '../store/graphStore';
 import { getLanguageColor } from '../utils/colors';
 import type { Language } from '../types';
 
 export const FileDetailPanel: React.FC = () => {
-  const { files, selectedFile, metrics, rootPath } = useGraphStore();
+  const { files, selectedFile, metrics } = useGraphStore();
 
   if (!selectedFile) {
     return (
@@ -55,17 +55,15 @@ export const FileDetailPanel: React.FC = () => {
           <div className="space-y-2">
             <h4 className="text-xs font-medium text-gray-400 uppercase">Metrics</h4>
             <div className="grid grid-cols-2 gap-2">
-              <MetricCard label="Ca" value={fileMetrics.ca} description="Afferent Coupling" />
-              <MetricCard label="Ce" value={fileMetrics.ce} description="Efferent Coupling" />
+              <MetricCard label={`Ca: ${fileMetrics.ca}`} description="Afferent Coupling" />
+              <MetricCard label={`Ce: ${fileMetrics.ce}`} description="Efferent Coupling" />
               <MetricCard
-                label={fileMetrics.instability.toFixed(2)}
-                value="I"
+                label={`I: ${fileMetrics.instability.toFixed(2)}`}
                 description="Instability"
               />
               <MetricCard
-                label={fileMetrics.inCycle ? 'Yes' : 'No'}
-                value="Cycle"
-                description="In Cycle"
+                label={fileMetrics.inCycle ? 'In Cycle' : 'No Cycle'}
+                description="Cycle Status"
                 color={fileMetrics.inCycle ? 'text-yellow-500' : 'text-green-500'}
               />
             </div>
@@ -118,10 +116,9 @@ export const FileDetailPanel: React.FC = () => {
 
 const MetricCard: React.FC<{
   label: string;
-  value: string | number;
   description: string;
   color?: string;
-}> = ({ label, value, description, color = 'text-blue-500' }) => (
+}> = ({ label, description, color = 'text-blue-500' }) => (
   <div className="bg-gray-800 rounded p-2">
     <div className={`text-lg font-bold ${color}`}>{label}</div>
     <div className="text-xs text-gray-500">{description}</div>
